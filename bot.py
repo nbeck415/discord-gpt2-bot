@@ -5,8 +5,7 @@ import simple_text_gen
 
 #token = open("token.txt", "r").read()  # I've opted to just save my token to a text file.
 generator = simple_text_gen.SimpleTextGen("reddit_comments.txt", 50)
-token = "NzIwMzY5ODg1OTI1ODY3NTgw.XuE_OA.m9zXl4dLScmfnuWdTBFSEmH0oWE"
-
+token = myTokenHere
 client = discord.Client()  # starts the discord client.
 
 
