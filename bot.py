@@ -4,7 +4,7 @@ import simple_text_gen
 
 generator = simple_text_gen.SimpleTextGen("reddit_comments.txt", 50)
 token = myTokenHere
-client = discord.Client()  # starts the discord client.
+client = discord.Client() 
 
 
 @client.event 
@@ -24,4 +24,4 @@ async def on_message(message):
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
         await client.send_message(message.channel, response)
 
-client.run(token)  # recall my token was saved!
+client.run(token) 
