@@ -7,6 +7,7 @@ import torch
 import gpt_2_simple as gpt2
 import sys
 import os
+import tensorflow as tf
 
 class SimpleTextGen:
 
@@ -28,6 +29,7 @@ class SimpleTextGen:
             #story generator, give parameters if necessary
             self.trainGenerator()
             print('Training Complete')
+        #tf.reset_default_graph()
         self.loadRun()
         print('Done')
 
@@ -57,6 +59,6 @@ def main(gen_text):
     story = SimpleTextGen('reddit_comments.txt', 50, gen_text)
 
 if __name__ == "__main__":
-    if len sys.argv < 2:
+    if len(sys.argv) < 2:
         main("DEFAULT")
     main(sys.argv[1])

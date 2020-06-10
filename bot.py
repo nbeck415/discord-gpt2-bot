@@ -3,9 +3,9 @@ import random
 import simple_text_gen
 #print(discord.__version__)  # check to make sure at least once you're on the right version!
 
-token = open("token.txt", "r").read()  # I've opted to just save my token to a text file.
+#token = open("token.txt", "r").read()  # I've opted to just save my token to a text file.
 generator = simple_text_gen.SimpleTextGen("reddit_comments.txt", 50)
-token = #
+token = "NzIwMzY5ODg1OTI1ODY3NTgw.XuE_OA.m9zXl4dLScmfnuWdTBFSEmH0oWE"
 
 client = discord.Client()  # starts the discord client.
 
@@ -23,7 +23,7 @@ async def on_message(message):
     if chance == 3 or message.content.startswith("&talk"):
         userinput = message.content.replace("&talk","")
         generator.talk(userinput)
-        response = open("bot_says.txt","r").read
+        response = open("bot_says.txt","r").read()
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
         await client.send_message(message.channel, response)
 
