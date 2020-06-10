@@ -29,8 +29,10 @@ class SimpleTextGen:
             #story generator, give parameters if necessary
             self.trainGenerator()
             print('Training Complete')
-        #tf.reset_default_graph()
-        self.loadRun()
+        tf.reset_default_graph()
+        self.session = gpt2.start_tf_sess()
+        gpt2.load_gpt2(self.session, run_name='run1')
+        #self.loadRun()
         print('Done')
 
 
@@ -49,11 +51,9 @@ class SimpleTextGen:
         gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=0.9, prefix=self.prompt)
 
     def talk(self, prompt):
-        session = gpt2.start_tf_sess()
-        gpt2.load_gpt2(session, run_name='run1')
-        gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=0.9, prefix=prompt)
-
-
+        #open('bot_says.txt', 'w').close()
+        session = self.session
+        gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=0.7, prefix=prompt)
 
 def main(gen_text):
     story = SimpleTextGen('reddit_comments.txt', 50, gen_text)
