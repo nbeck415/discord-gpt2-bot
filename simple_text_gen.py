@@ -8,12 +8,18 @@ import gpt_2_simple as gpt2
 import sys
 import os
 import tensorflow as tf
+import nltk.data
 
 class SimpleTextGen:
 
-    def __init__(self, source, num_words, prompt="DEFAULT"):
+    def __init__(self, source, num_words, prompt="DEFAULT", temp=0.7):
+        #separating blocks into sentence tokens
+        nltk.download('punkt')
+        self.tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
         #where the training data is stored
         self.source = source
+        #deviation from original dataset
+        self.temperature = temp
         #length of output
         self.num_words = num_words
         #user input
@@ -32,7 +38,6 @@ class SimpleTextGen:
         tf.reset_default_graph()
         self.session = gpt2.start_tf_sess()
         gpt2.load_gpt2(self.session, run_name='run1')
-        #self.loadRun()
         print('Done')
 
 
@@ -41,19 +46,32 @@ class SimpleTextGen:
         #first time runthrough
         gpt2.download_gpt2(model_name=size)
 
-    def trainGenerator(self, num_words=200, variance=0.9):
+    def trainGenerator(self, num_steps=50):
+        #train the generator on a file and use our preset parameters
         session = gpt2.start_tf_sess()
-        gpt2.finetune(session, dataset=self.source, model_name='124M', steps=50, restore_from='fresh',run_name='run1',sample_every=200,save_every=500, print_every=10)
+        gpt2.finetune(session, dataset=self.source, model_name='124M', steps=num_steps, restore_from='fresh', run_name='run1', sample_every=200, save_every=500, print_every=10)
 
     def loadRun(self):
+        #load an existing trained run and generate from it
         session = gpt2.start_tf_sess()
         gpt2.load_gpt2(session, run_name='run1')
-        gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=0.9, prefix=self.prompt)
+        gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=self.temperature, prefix=self.prompt)
 
-    def talk(self, prompt):
+    def talk(self, prompt, temp=0.7, words=50):
         #open('bot_says.txt', 'w').close()
+        #respond to given prompt from loaded run with specified parameters
         session = self.session
-        gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=0.7, prefix=prompt)
+        gpt2.generate_to_file(session, include_prefix=False, destination_path='bot_says.txt', length=words, temperature=temp, prefix=prompt)
+
+    def fileFormat(self):
+        #give full sentence
+        text = open('bot_says.txt').read()
+        text.strip('"')
+        split = self.tokenizer.tokenize(text)
+        edited = open('bot_says.txt', 'w')
+        edited.write(split[1])
+        edited.close()
+
 
 def main(gen_text):
     story = SimpleTextGen('reddit_comments.txt', 50, gen_text)
