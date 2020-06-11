@@ -1,9 +1,9 @@
 # Discord GPT-2 Bot
 
-##Dependencies:
+## Dependencies:
 Tensorflow v. 1.15, Python 3.7.x or earlier, gpt_2_simple, Pytorch, NLTK, discord.py
 
-##Setup
+## Setup
 Using a Python 3.x version prior to 3.8, install Tensorflow 1.15 (later versions will not work with the gpt_2_simple model)
 Install pytorch and discord.py. All can be done with pip install
 
