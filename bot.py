@@ -3,12 +3,13 @@ import random
 import simple_text_gen
 
 generator = simple_text_gen.SimpleTextGen("reddit_comments.txt", 50)
+token = "token goes here"
 
 client = discord.Client()  # starts the discord client.
 
 
 @client.event
-async def on_ready(): 
+async def on_ready():
     print(f'We have logged in as {client.user}')
 
 
@@ -20,6 +21,7 @@ async def on_message(message):
     if chance == 3 or message.content.startswith("&talk"):
         userinput = message.content.replace("&talk ","")
         generator.talk(userinput)
+        generator.fileFormat()
         response = open("bot_says.txt","r").read()
         print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
         await message.channel.send(response)
