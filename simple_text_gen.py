@@ -58,7 +58,6 @@ class SimpleTextGen:
         gpt2.generate_to_file(session, include_prefix=False, truncate = ".", destination_path='bot_says.txt', length=self.num_words, temperature=self.temperature, prefix=self.prompt)
 
     def talk(self, prompt, temp=0.7, words=50):
-        #open('bot_says.txt', 'w').close()
         #respond to given prompt from loaded run with specified parameters
         session = self.session
         gpt2.generate_to_file(session, include_prefix=False, destination_path='bot_says.txt', length=words, temperature=temp, prefix=prompt)
@@ -66,7 +65,7 @@ class SimpleTextGen:
     def fileFormat(self):
         #give full sentence
         text = open('bot_says.txt').read()
-        text.strip('"')
+        text.replace('"','').replace('"','').replace("“",'').replace("”",'')
         split = self.tokenizer.tokenize(text)
         edited = open('bot_says.txt', 'w')
         edited.write(split[1])
