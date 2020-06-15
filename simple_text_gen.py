@@ -65,10 +65,13 @@ class SimpleTextGen:
     def fileFormat(self):
         #give full sentence
         text = open('bot_says.txt').read()
-        text.replace('"','').replace('"','').replace("“",'').replace("”",'')
+        text.replace('"','').replace('"','').replace("“",'').replace("”",'').replace("\"","")
         split = self.tokenizer.tokenize(text)
         edited = open('bot_says.txt', 'w')
-        edited.write(split[1])
+        ind = 1
+        if len(split) < 2:
+            ind = 0
+        edited.write(split[ind])
         edited.close()
 
 
