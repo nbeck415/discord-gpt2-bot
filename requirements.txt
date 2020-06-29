@@ -3,4 +3,3 @@ gpt-2-simple>=0.1
 torch>=0.1
 nltk>=0.1
 discord>=0.1
-random>=0.1
