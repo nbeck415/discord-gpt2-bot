@@ -40,7 +40,7 @@ async def on_message(message):
         converse = True
         channel = message.channel.id
         return
-    if converse and message.author != client.use and channel == message.channel.id:
+    if converse and message.author != client.user and channel == message.channel.id:
         if message.content.startswith("&stop"):
             converse = False
             return
